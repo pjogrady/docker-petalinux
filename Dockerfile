@@ -4,8 +4,8 @@
 FROM ubuntu:16.04
 
 # The Xilinx toolchain version
-ARG XILVER=2018.3
-ARG XXXX_XXXX=1207_2324
+ARG XILVER=2019.2
+ARG XXXX_XXXX=1106_2127
 
 # The PetaLinux base. We expect ${PETALINUX_BASE}-installer.run to be the patched installer.
 # PetaLinux will be installed in /opt/${PETALINX_BASE}
@@ -119,7 +119,7 @@ RUN echo "" | sudo -S chown -R petalinux:petalinux . \
 
 # Install Vivado
 # Files are expected in the "./resources" subdirectory
-ENV XLNX_VIVADO_OFFLINE_INSTALLER=Xilinx_Vivado_SDK_${XILVER}_${XXXX_XXXX}.tar.gz
+ENV XLNX_VIVADO_OFFLINE_INSTALLER=Xilinx_Vivado_${XILVER}_${XXXX_XXXX}.tar.gz
 ENV XLNX_VIVADO_BATCH_CONFIG_FILE=install_config.txt
 RUN mkdir -p /opt/Xilinx/tmp \
     && cd /opt/Xilinx/tmp \
@@ -127,9 +127,12 @@ RUN mkdir -p /opt/Xilinx/tmp \
     && wget -q ${HTTP_SERV}/$XLNX_VIVADO_OFFLINE_INSTALLER \
     && cat $XLNX_VIVADO_BATCH_CONFIG_FILE \
     && tar -zxf $XLNX_VIVADO_OFFLINE_INSTALLER && ls -al \
-    && mv $XLNX_VIVADO_BATCH_CONFIG_FILE Xilinx_Vivado_SDK_${XILVER}_${XXXX_XXXX}/ \
-    && cd Xilinx_Vivado_SDK_${XILVER}_${XXXX_XXXX} \
-    && chmod a+x xsetup \
+    && mv $XLNX_VIVADO_BATCH_CONFIG_FILE Xilinx_Vivado_${XILVER}_${XXXX_XXXX}/ \
+    && cd Xilinx_Vivado_${XILVER}_${XXXX_XXXX} \
+    && chmod a+x xsetup
+RUN \
+    cd /opt/Xilinx/tmp \
+    && cd Xilinx_Vivado_${XILVER}_${XXXX_XXXX} \
     && ./xsetup \
        --agree XilinxEULA,3rdPartyEULA,WebTalkTerms \
        --config $XLNX_VIVADO_BATCH_CONFIG_FILE \

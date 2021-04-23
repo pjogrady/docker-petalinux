@@ -2,8 +2,8 @@
 # SPDX-FileCopyrightText: 2020, Carles Fernandez-Prades <carles.fernandez@cttc.es>
 # SPDX-License-Identifier: MIT
 
-# Default version 2018.3
-XILVER=${1:-2018.3}
+# Default version 2019.2
+XILVER=${1:-2019.2}
 
 # Check if the petalinux installer exists
 PLNX="resources/petalinux-v${XILVER}-final-installer.run"
